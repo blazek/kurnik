@@ -10,8 +10,8 @@
 # upload project: make upload
 
 BOARD_TAG    = uno
-#ARDUINO_PORT = /dev/cu.usb*
 
-#ARDUINO_LIBS = Ethernet Ethernet/utility SPI
+USER_LIB_PATH=libraries/
+ARDUINO_LIBS = Wire DS3231
 
 include /usr/share/arduino/Arduino.mk
