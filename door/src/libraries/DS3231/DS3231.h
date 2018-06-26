@@ -129,8 +129,10 @@ class DS3231
 	char* dateFormat(const char* dateFormat, RTCDateTime dt);
 	char* dateFormat(const char* dateFormat, RTCAlarmTime dt);
 
-    private:
+    //private:
 	RTCDateTime t;
+    
+    uint8_t month() { return t.month; }
 
 	char *strDayOfWeek(uint8_t dayOfWeek);
 	char *strMonth(uint8_t month);

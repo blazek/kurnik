@@ -2,4 +2,5 @@
 *~
 .*.swp
 door/src/build-uno
+*/__pycache__
 

@@ -2,9 +2,9 @@
 #include <DS3231.h>
 #include "Wire.h"
 #include "Motor.h"
+#include "Sun.h"
 
 DS3231 rtc;
-RTCDateTime dateTime;
 
 int motorPins[4] = { 8, 9, 10, 11 };
 Motor motor(motorPins);
@@ -18,8 +18,13 @@ void setupTime() {
 // Print to serial for verification,
 // can be read on Linux using: busybox microcom -t 9600 /dev/ttyUSB0
 void printTime() {
-    dateTime = rtc.getDateTime();
-    Serial.println(rtc.dateFormat("Y-m-d H:i:s", dateTime));
+    RTCDateTime dateTime = rtc.getDateTime();
+    Serial.print(rtc.dateFormat("Y-m-d H:i:s z", dateTime));
+    uint16_t dayOfYear = rtc.dayInYear(dateTime.year, dateTime.month, dateTime.day);
+    //Serial.print(dayOfYear);
+    uint16_t begin = pgm_read_word(&(TWILIGHT[dayOfYear][0]));
+    uint16_t end = pgm_read_word(&(TWILIGHT[dayOfYear][1]));
+    Serial.println(" " + String(begin) + " " + String(end));
 }
 
 void setup() {
