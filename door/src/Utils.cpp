@@ -25,15 +25,16 @@ bool getIsDay(DS3231 rtc) {
     //Serial.println(String(begin) + " " + String(end));
     Serial.println("twilight " + formatMinutes(begin) + " " + formatMinutes(end));
     uint16_t minutes = dateTime.hour * 60 + dateTime.minute;
+    Serial.println("minutes = " + String(minutes) + " " + formatMinutes(minutes));
     uint16_t begin_delay = begin + MORNING_DELAY;
     uint16_t end_delay = end + EVENING_DELAY;
     Serial.println("with delay " + formatMinutes(begin_delay) + " " + formatMinutes(end_delay));
-    bool isDay = minutes > begin_delay && end_delay < end;
+    bool isDay = minutes > begin_delay && minutes < end_delay;
     //Serial.println("isDay = " + String(isDay));
     
     // Debug, switch every 10 minutes
-    int tens = dateTime.minute/10;
-    isDay = tens % 2;
+    //int tens = dateTime.minute/10;
+    //isDay = tens % 2;
     
     return isDay;
 }
