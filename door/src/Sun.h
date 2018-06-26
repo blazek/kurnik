@@ -2,6 +2,7 @@
 #ifndef SUN_H
 #define SUN_H
 #include <avr/pgmspace.h>
+// Twilight [begin,end] in CET for every day of year
 const uint16_t TWILIGHT[][2] PROGMEM = {
 441, 1010,  // 000 01-01 07:21 - 16:50
 441, 1011,  // 001 01-02 07:21 - 16:51

@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include "Motor.h"
 
 const int Motor::STEPS[8] = {
@@ -34,6 +34,29 @@ int Motor::pinValue(int pin, int step) {
     };
     int value = pinMask[pin] & step;
     return value;
+}
+
+/** 
+ * Revolution of output shaft
+ * @param direction: ROTATE_RIGHT or  ROTATE_LEFT
+ * @param number of step cycles (8 steps = cycle), 360 degrees = 512 cycles
+ */ 
+void Motor::rotateStepCycles(int direction, int stepsCycles) {
+    for(int c = 0; c < stepsCycles; c++) {
+        for(int step = 0; step < 8; step++) {
+            int directionStep;
+            if ( direction == ROTATE_RIGHT ) {
+                directionStep = 7-step;
+            } else {
+                directionStep = step;
+            }
+            for(int pin = 0; pin < 4; pin++) {
+                int value = pinValue(pin, STEPS[directionStep]);
+                digitalWrite(mPins[pin], value);
+            }
+            delay(mStepDelay);
+        }
+    }
 }
 
 /** 

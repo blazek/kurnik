@@ -14,11 +14,14 @@ class Motor
     public:
         Motor(int pins[4]);
         void setup();
+        void rotateStepCycles(int direction, int stepsCycles);
         void rotate(int direction, int revolutions);
 
         // Direction when looking towards shaft
         static const int ROTATE_LEFT = 0;
         static const int ROTATE_RIGHT = 1;
+        
+        static const int STEP_CYCLES_PER_REVOLUTION = 512;
         
         
     private:
@@ -42,7 +45,7 @@ class Motor
         };
         */
         
-        int mStepDelay = 2; // 1 is losing steps?
+        int mStepDelay = 2; // 1 is losing steps
 };
 
 #endif

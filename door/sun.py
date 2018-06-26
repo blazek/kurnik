@@ -14,6 +14,7 @@ output.write('''// DO NOT EDIT, WRITTEN BY sun.py!
 #ifndef SUN_H
 #define SUN_H
 #include <avr/pgmspace.h>
+// Twilight [begin,end] in CET for every day of year
 const uint16_t TWILIGHT[][2] PROGMEM = {
 ''')
 observer = ephem.Observer()  

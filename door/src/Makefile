@@ -12,6 +12,6 @@
 BOARD_TAG    = uno
 
 USER_LIB_PATH=libraries/
-ARDUINO_LIBS = Wire DS3231
+ARDUINO_LIBS = Wire DS3231 EEPROM
 
 include /usr/share/arduino/Arduino.mk
