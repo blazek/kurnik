@@ -6,14 +6,29 @@
 String formatMinutes(uint16_t minutes) {
     uint8_t hour = minutes / 60;
     uint8_t min = minutes % 60;
-    return String(hour) + ":" + ((min < 10) ? "0" : "") + String(min);
+    return ((hour < 10) ? "0" : "") + String(hour) + ":" + ((min < 10) ? "0" : "") + String(min);
+}
+
+// Set CET, set isSummer=true if there is CET to detract an hour
+void setupTime(DS3231 rtc, bool isSummer) {
+    rtc.setDateTime(__DATE__, __TIME__); 
+    RTCDateTime dt = rtc.getDateTime();
+    // set CET
+    if ( isSummer ) {
+        dt.hour -= 1;
+    }
+    // correction for the time until compiled and uploaded
+    dt.second += 8;
+    rtc.setDateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
 }
 
 // Print to serial for verification,
 // can be read on Linux using: busybox microcom -t 9600 /dev/ttyUSB0
 void printTime(DS3231 rtc) {
     RTCDateTime dateTime = rtc.getDateTime();
-    Serial.println(rtc.dateFormat("Y-m-d H:i:s z", dateTime));
+    Serial.println("CET:  " + String(rtc.dateFormat("Y-m-d H:i:s z", dateTime)) + ". day");
+    dateTime.hour += 1;
+    Serial.println("CEST: " + String(rtc.dateFormat("Y-m-d H:i:s z", dateTime)) + ". day");
 }
 
 bool getIsDay(DS3231 rtc) {
@@ -22,13 +37,15 @@ bool getIsDay(DS3231 rtc) {
     //Serial.print(dayOfYear);
     uint16_t begin = pgm_read_word(&(TWILIGHT[dayOfYear][0]));
     uint16_t end = pgm_read_word(&(TWILIGHT[dayOfYear][1]));
+    //Serial.println("minutes = " + String(minutes) + " " + formatMinutes(minutes));    
     //Serial.println(String(begin) + " " + String(end));
-    Serial.println("twilight " + formatMinutes(begin) + " " + formatMinutes(end));
+    Serial.println("twilight CET:  " + formatMinutes(begin) + " - " + formatMinutes(end));
+    Serial.println("twilight CEST: " + formatMinutes(begin+60) + " - " + formatMinutes(end+60));
     uint16_t minutes = dateTime.hour * 60 + dateTime.minute;
-    Serial.println("minutes = " + String(minutes) + " " + formatMinutes(minutes));
     uint16_t begin_delay = begin + MORNING_DELAY;
     uint16_t end_delay = end + EVENING_DELAY;
-    Serial.println("with delay " + formatMinutes(begin_delay) + " " + formatMinutes(end_delay));
+    Serial.println("twilight delay CET:  " + formatMinutes(begin_delay) + " - " + formatMinutes(end_delay));
+    Serial.println("twilight delay CEST: " + formatMinutes(begin_delay+60) + " - " + formatMinutes(end_delay+60));
     bool isDay = minutes > begin_delay && minutes < end_delay;
     //Serial.println("isDay = " + String(isDay));
     

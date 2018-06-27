@@ -31,21 +31,12 @@ class Motor
         int * mPins;
         
         static const int STEPS[];
-        // Steps pins in counter clockwise direction
-        /*
-        static constexpr int STEPS[8] = {
-            0b0001,
-            0b0011,
-            0b0010,
-            0b0110,
-            0b0100,
-            0b1100,
-            0b1000,
-            0b1001
-        };
-        */
+
         
-        int mStepDelay = 2; // 1 is losing steps
+        // Delay in ms, each 1 ms means approximatelly 1*8*512*10 = 40960ms = 40s longer open/close
+        // 1 is losing steps or motor is even stopping
+        // 2 seems not losing steps
+        int mStepDelay = 2; 
 };
 
 #endif

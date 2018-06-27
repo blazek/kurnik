@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "Motor.h"
 
+// Steps pins in counter clockwise direction
 const int Motor::STEPS[8] = {
     0b0001,
     0b0011,

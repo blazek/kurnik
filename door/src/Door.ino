@@ -14,7 +14,7 @@ Motor motor(motorPins);
 short OPEN_REVOLUTIONS = 9;  // 8 = 27cm, 9 = 30 cm
 // How many times open status is written to memory per revolution
 // It should be a reasonable number 360 degrees = 512 cycles
-short UNIT_PER_REVOLUTION = 4;
+short UNIT_PER_REVOLUTION = 10;
 
 int ADJUSTMENT_DELAY = 60; // seconds
 
@@ -26,38 +26,44 @@ void setup() {
     rtc.begin();
     
     // call once when a battery was inserted to RTC
-    // rtc.setDateTime(__DATE__, "21:35:00"); // set CET
+    // bool isSummer = true; // if CET
+    // setupTime(rtc, isSummer);
     
     // call to reset open status
-    // EEPROMWriteOpen(0);
+    //EEPROMWriteOpen(0);
     
-    // After reset during the day, close the door and left it close for a while for addjustment
-    
+    // After reset during the day, close the door and left it close for a while for addjustment    
     boolean isDay = getIsDay(rtc);
     if ( isDay ) {
         addjustment = true;
     }
     
     motor.setup();
+    Serial.println("setup end");
 }
 
 void loop() {
     printTime(rtc);
     boolean isDay = getIsDay(rtc);
-    Serial.println("isDay = " + String(isDay));
+    getIsDay(rtc);
+    Serial.println("isDay: " + String(isDay));
     
+    // 1 step cycle = 8 motor steps
+    // 1 unit = Motor::STEP_CYCLES_PER_REVOLUTION / UNIT_PER_REVOLUTION
+    // 1 revolution = UNIT_PER_REVOLUTION units
+    // Every unit is saved to memory
     short openUnits = EEPROMReadOpen();
     short maxUnits = OPEN_REVOLUTIONS * UNIT_PER_REVOLUTION;
-    Serial.println("openUnits = " + String(openUnits) + " maxUnits = " + String(maxUnits));
+    Serial.println("open: " + String(openUnits) + " / " + String(maxUnits));
     int stepCycles = Motor::STEP_CYCLES_PER_REVOLUTION / UNIT_PER_REVOLUTION;
     if ( (!isDay && openUnits > 0) || addjustment ) {
-        Serial.println("close openUnits = " + String(openUnits) + " addjustment = " + addjustment);
+        Serial.println("close openUnits: " + String(openUnits) + " addjustment: " + addjustment);
         for ( int i = openUnits; i > 0; i-- ) {
             motor.rotateStepCycles(Motor::ROTATE_LEFT, stepCycles);
             openUnits--;
-            Serial.println("write openUnits = " + String(openUnits));
+            //Serial.println("write openUnits = " + String(openUnits));
             EEPROMWriteOpen(openUnits);
-            Serial.println("open = " + String(EEPROMReadOpen()));
+            Serial.println("open: " + String(EEPROMReadOpen()) + "/" + String(maxUnits));
         }
         
         // clear adjustment mode 
@@ -71,15 +77,15 @@ void loop() {
         }
     } else if ( isDay && openUnits < maxUnits ) {
         int missingUnits = maxUnits-openUnits;
-        Serial.println("open missingUnits = " + String(missingUnits));
+        Serial.println("open missingUnits: " + String(missingUnits));
         for ( int i = 0; i < missingUnits; i++ ) {
             motor.rotateStepCycles(Motor::ROTATE_RIGHT, stepCycles);
             openUnits++;
-            Serial.println("write openUnits = " + String(openUnits));
+            //Serial.println("write openUnits = " + String(openUnits));
             EEPROMWriteOpen(openUnits);
-            Serial.println("open = " + String(EEPROMReadOpen()));
+            Serial.println("open: " + String(EEPROMReadOpen()) + "/" + String(maxUnits));
 
         }
     } 
-    delay(1000);
+    delay(2000);
 }
