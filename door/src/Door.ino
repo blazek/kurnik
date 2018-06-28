@@ -11,7 +11,8 @@ int motorPins[4] = { 8, 9, 10, 11 };
 Motor motor(motorPins);
 
 // Number of revolutions to fully open the door
-short OPEN_REVOLUTIONS = 9;  // 8 = 27cm, 9 = 30 cm
+// Exact height is 30cm; 12 revolutions = 31cm
+short OPEN_REVOLUTIONS = 12; 
 // How many times open status is written to memory per revolution
 // It should be a reasonable number 360 degrees = 512 cycles
 short UNIT_PER_REVOLUTION = 10;
