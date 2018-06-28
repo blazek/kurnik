@@ -58,6 +58,7 @@ void Motor::rotateStepCycles(int direction, int stepsCycles) {
             delay(mStepDelay);
         }
     }
+    clear();
 }
 
 /** 
@@ -84,8 +85,14 @@ void Motor::rotate(int direction, int revolutions) {
             }
         }
     }
+    clear();
 }
 
+void Motor::clear() {
+    for(int pin = 0; pin < 4; pin++) {
+        digitalWrite(mPins[pin], LOW);
+    }
+}
 
 
 

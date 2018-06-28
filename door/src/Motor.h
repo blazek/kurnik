@@ -26,6 +26,7 @@ class Motor
         
     private:
         int pinValue(int pin, int step);
+        void clear();
         
         // Output pins
         int * mPins;
