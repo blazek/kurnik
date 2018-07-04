@@ -3,7 +3,7 @@
 # 
 # Environment variables have to be set (example working if using packages):
 #export ARDUINO_DIR=/usr/share/arduino/
-#export ARDMK_DIR=/usr/
+#export ARDMK_DIR=/usr/share/arduino
 #export AVR_TOOLS_DIR= # not required if using package
 
 # make project: make

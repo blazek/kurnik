@@ -26,9 +26,13 @@ void setup() {
     Serial.begin(9600);
     rtc.begin();
     
-    // call once when a battery was inserted to RTC
-    // bool isSummer = true; // if CET
-    // setupTime(rtc, isSummer);
+    // Call once to reset time.
+    //bool isSummer = true; // if CET
+    // __DATE__, __TIME__ must be here, to get it when recompiled, Utils.cpp may be old
+    // Be carefull, ensure that it is recompiled when setting time and do not reset when set time code is uploaded!
+    // Attention with precompiled binary uploaded from mobile device.
+    // ATTENTION: after time reset, modify getDateTimeCorrected() !!!
+    //setupTime(rtc, __DATE__, __TIME__, isSummer);
     
     // call to reset open status
     //EEPROMWriteOpen(0);
@@ -43,8 +47,9 @@ void setup() {
     Serial.println("setup end");
 }
 
+//#define RTC_AGING 0x10
 void loop() {
-    printTime(rtc);
+    printTime(rtc);  
     boolean isDay = getIsDay(rtc);
     getIsDay(rtc);
     Serial.println("isDay: " + String(isDay));
