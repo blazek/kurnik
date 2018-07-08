@@ -11,8 +11,8 @@ void EEPROMWriteLong(int address, long value);
 long EEPROMReadLong(long address);
 
 // Delay in minutes, may be negative
-static const int MORNING_DELAY = 15;
-static const int EVENING_DELAY = 15;
+static const int MORNING_DELAY = +45;
+static const int EVENING_DELAY = -15;
 void setupTime(DS3231 rtc, const char* date, const char* time, bool isSummer);
 void printTime(DS3231 rtc);
 
