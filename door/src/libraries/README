@@ -1,4 +1,5 @@
 DS3231 
  - copy from from https://github.com/jarzebski/Arduino-DS3231
  - changed: everything made public
-
+ - strange fix suggested: https://github.com/jarzebski/Arduino-DS3231/issues/12
+   dayInYear fixed instead 

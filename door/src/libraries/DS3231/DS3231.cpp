@@ -1095,7 +1095,10 @@ uint16_t DS3231::dayInYear(uint16_t year, uint8_t month, uint8_t day)
     fromDate = date2days(year, 1, 1);
     toDate = date2days(year, month, day);
 
-    return (toDate - fromDate);
+    // strange suggesion https://github.com/jarzebski/Arduino-DS3231/issues/12
+    // fix here to start from 1
+    // return (toDate - fromDate);
+    return (toDate - fromDate) + 1;    
 }
 
 bool DS3231::isLeapYear(uint16_t year)

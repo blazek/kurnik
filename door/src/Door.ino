@@ -22,8 +22,12 @@ int ADJUSTMENT_DELAY = 60; // seconds
 bool addjustment = false;
 
 void setup() {
-    // Start comunication with RTC, 9600 baud
+    // ArduinoDroid 4.5.1 prints serial otuput in monitor truncated if speed is set to 9600
+    // it works with 115200, but if the speed in ArduinoDroid was previously set to 9600,
+    // the board is not recognized and speed settings are not available ....
+    // -> better cutted than nothing
     Serial.begin(9600);
+    //Serial.begin(115200);
     rtc.begin();
     
     // Call once to reset time.
@@ -47,11 +51,9 @@ void setup() {
     Serial.println("setup end");
 }
 
-//#define RTC_AGING 0x10
 void loop() {
     printTime(rtc);  
     boolean isDay = getIsDay(rtc);
-    getIsDay(rtc);
     Serial.println("isDay: " + String(isDay));
     
     // 1 step cycle = 8 motor steps

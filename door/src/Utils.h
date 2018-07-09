@@ -11,12 +11,16 @@ void EEPROMWriteLong(int address, long value);
 long EEPROMReadLong(long address);
 
 // Delay in minutes, may be negative
+// Pozorovano:
+// 6.7. 5:30 lezou hned
+// 7.7. otevreno 5:00, lezou 5:10 
+// 8.7. 20:45 zalezle
 static const int MORNING_DELAY = +45;
-static const int EVENING_DELAY = -15;
+static const int EVENING_DELAY = -30;
 void setupTime(DS3231 rtc, const char* date, const char* time, bool isSummer);
 void printTime(DS3231 rtc);
 
-RTCDateTime correctDateTime(DS3231 rtc, RTCDateTime dt);
+//RTCDateTime correctDateTime(DS3231 rtc, RTCDateTime dt);
 bool getIsDay(DS3231 rtc);
 
 // Arduino UNO has 1k EEPROM, write is guaranteed 100000x
