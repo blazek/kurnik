@@ -15,8 +15,11 @@ long EEPROMReadLong(long address);
 // 6.7. 5:30 lezou hned
 // 7.7. otevreno 5:00, lezou 5:10 
 // 8.7. 20:45 zalezle
-static const int MORNING_DELAY = +45;
-static const int EVENING_DELAY = -30;
+// Zacatkem cervence bylo vyhovujici MORNING_DELAY = +45, EVENING_DELAY = -30
+// a asi by se vecer dalo jeste zkratit, ale v pulce srpna bylo jiz vecer brzy a rano pozde
+// -> nulove delay / srpen
+static const int MORNING_DELAY = +0;
+static const int EVENING_DELAY = -0;
 void setupTime(DS3231 rtc, const char* date, const char* time, bool isSummer);
 void printTime(DS3231 rtc);
 

@@ -35,7 +35,6 @@ void setup() {
     // __DATE__, __TIME__ must be here, to get it when recompiled, Utils.cpp may be old
     // Be carefull, ensure that it is recompiled when setting time and do not reset when set time code is uploaded!
     // Attention with precompiled binary uploaded from mobile device.
-    // ATTENTION: after time reset, modify getDateTimeCorrected() !!!
     //setupTime(rtc, __DATE__, __TIME__, isSummer);
     
     // call to reset open status
